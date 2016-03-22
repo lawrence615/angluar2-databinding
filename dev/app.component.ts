@@ -6,10 +6,10 @@ import {ConfirmComponent} from "./bindings/confirm.component";
     selector: 'my-app',
     template: `
         <div class= "container">
-            <my-input (submitted)="onSubmit($event)"></my-input>
+            <my-input (submitted)="onSubmit($event)" [myself]="confirmedMyself"></my-input>
         </div>
         <div class= "container">
-            <my-confirm (confirmed)="onConfirm($event)"></my-confirm>
+            <my-confirm (confirmed)="onConfirm($event)" [myself]="myself"></my-confirm>
         </div>
     `,
     directives: [InputComponent, ConfirmComponent]
@@ -19,10 +19,10 @@ export class AppComponent {
     confirmedMyself = {name: '', age: ''};
 
     onSubmit(myself:{name: string, age: string}) {
-        this.myself = myself;
+        this.myself = {name: myself.name, age: myself.age};
     }
 
-    onSubonConfirmmit(myself:{name: string, age: string}) {
-        this.confirmedMyself = myself;
+    onConfirm(myself:{name: string, age: string}) {
+        this.confirmedMyself = {name: myself.name, age: myself.age};
     }
 }
