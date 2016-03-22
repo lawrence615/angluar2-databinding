@@ -2,6 +2,7 @@
  * Created by Lawrence on 3/16/16.
  */
 import {Component} from 'angular2/core';
+import {EventEmitter} from "angular2/core";
 
 @Component({
     selector: 'my-input',
@@ -19,14 +20,17 @@ import {Component} from 'angular2/core';
     <div>Filled out: {{ isFilled ? 'Yes' : 'No' }}</div>
     <div>Valid: {{ isValid ? 'Yes' : 'No' }}</div>
     <br>
-    <button [disabled]="!isValid">Submit</button>
-    `
+    <button [disabled]="!isValid" (click)="onSubmit()">Submit</button>
+    `,
+    inputs:['myself'],
+    outputs: ['submitted']
 })
 
 export class InputComponent {
     myself = {name: '', age: ''};
     isFilled = false;
     isValid = false;
+    submitted = new EventEmitter<{name: string, age: string}>();
 
     onKeyUp() {
         if (this.myself.name != '' && this.myself.age != '') {
@@ -40,5 +44,9 @@ export class InputComponent {
         } else {
             this.isValid = false;
         }
+    }
+
+    onSubmit(){
+        this.submitted.emit(this.myself);
     }
 }
